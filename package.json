@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./bin/www",
-    "start-debug": "cross-env DEBUG=rjapi:* yarn start"
+    "start-debug": "cross-env DEBUG=rjapi:* node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
