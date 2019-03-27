@@ -1,4 +1,51 @@
+const sample = require('lodash/sample');
+
 const mocks = {
+  /**
+   * Returns a random race (fantasy characters)
+   */
+  getRandomFantasyRace: function() {
+    const races = [
+      'dwarf',
+      'elf',
+    ]
+
+    return sample(races);
+  },
+  /**
+   * Returns a race-appropriate name
+   */
+  getRaceAppropriateName: function(raceName) {
+    let name = null;
+
+    switch(raceName.toLowerCase()) {
+      case 'dwarf':
+        name = sample(this.getDwarfNames())
+        break;
+      case 'elf':
+        name = sample(this.getElfNames())
+        break;
+      default:
+        break;
+    }
+
+    return name;
+  },
+  /**
+   * Returns a URL for a random 120x120 display pic
+   */
+  getRandomDisplayPicUrl: function(baseUrl) {
+    const earls = [
+      '/images/display-pic-1.jpg',
+      '/images/display-pic-2.jpg',
+      '/images/display-pic-3.jpg',
+      '/images/display-pic-4.jpg',
+      '/images/display-pic-5.jpg',
+      '/images/display-pic-6.jpg',
+    ]
+
+    return `${baseUrl}${sample(earls)}`;
+  },
   /**
    * Returns a list of 40 dwarf names
    */
