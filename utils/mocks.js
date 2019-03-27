@@ -1,3 +1,4 @@
+const shuffle = require('lodash/shuffle');
 const sample = require('lodash/sample');
 
 const mocks = {
@@ -13,17 +14,29 @@ const mocks = {
     return sample(races);
   },
   /**
+   * Returns a random gender (fantasy characters)
+   */
+  getRandomFantasyGender: function() {
+    const genders = [
+      'male',
+      'female',
+      'neutral',
+    ]
+
+    return sample(genders);
+  },
+  /**
    * Returns a race-appropriate name
    */
-  getRaceAppropriateName: function(raceName) {
+  getRaceAppropriateName: function(raceName, gender) {
     let name = null;
 
     switch(raceName.toLowerCase()) {
       case 'dwarf':
-        name = sample(this.getDwarfNames())
+        name = sample(this.getDwarfNames(gender))
         break;
       case 'elf':
-        name = sample(this.getElfNames())
+        name = sample(this.getElfNames(gender))
         break;
       default:
         break;
@@ -47,10 +60,11 @@ const mocks = {
     return `${baseUrl}${sample(earls)}`;
   },
   /**
-   * Returns a list of 40 dwarf names
+   * Returns a list of up to 40 dwarf names
+   * If gender is unspecified, return female names
    */
-  getDwarfNames: function() {
-    return [
+  getDwarfNames: function(gender) {
+    const maleNames = [
       'Jasdrus Ashgrip',
       'Vother Axesunder',
       'Doukomi Jadebelt',
@@ -61,16 +75,6 @@ const mocks = {
       'Oridgrouk Treasurebow',
       'Thabaeth Goldspine',
       'Kokreack Platebuckle',
-      'Handrealin Flattoe',
-      'Torezuna Grimpike',
-      'Lurhare Drakechin',
-      'Reidweaserd Onyxmail',
-      'Gozegaer Snowguard',
-      'Valmuhilda Chaoshood',
-      'Thaveatalyn Barbedbraids',
-      'Thikhelyn Grimmaker',
-      'Dhomrearika Boulderhelm',
-      'Thrarsaserd Sapphirecoat',
       'Dalomet Coalmaster',
       'Thutouth Cavecloak',
       'Thanamli Stronghide',
@@ -81,6 +85,19 @@ const mocks = {
       'Luzzouck Icebelly',
       'Bhazumir Stormpike',
       'Thatdrolin Treasurethane',
+    ];
+    
+    const femaleNames = [
+      'Handrealin Flattoe',
+      'Torezuna Grimpike',
+      'Lurhare Drakechin',
+      'Reidweaserd Onyxmail',
+      'Gozegaer Snowguard',
+      'Valmuhilda Chaoshood',
+      'Thaveatalyn Barbedbraids',
+      'Thikhelyn Grimmaker',
+      'Dhomrearika Boulderhelm',
+      'Thrarsaserd Sapphirecoat',
       'Bramwotalyn Heavyhead',
       'Bamnolyn Coalflayer',
       'Mumdaelda Longstone',
@@ -92,12 +109,22 @@ const mocks = {
       'Vodwouhilda Lighthead',
       'Oriweanelyn Emberjaw',
     ];
+
+    if(!gender) {
+      return shuffle(maleNames.concat(femaleNames));
+    }
+
+    if(gender === 'male') {
+      return shuffle(maleNames);
+    } else {
+      return shuffle(femaleNames);
+    }
   },
   /**
    * Returns a list of 60 elf names
    */
-  getElfNames: function() {
-    return [
+  getElfNames: function(gender) {
+    const maleNames = [
       'Mlartlar Trisvyre',
       'Braern Valxina',
       'Faeranduil Valven',
@@ -109,36 +136,6 @@ const mocks = {
       'Phaendar Jolar',
       'Delsaran Daethyra',
       'Nueleth Yesthana',
-      'Taeral Xyrnan',
-      'Aien Caikrana',
-      'Jorildyn Adthana',
-      'Kymil Brylee',
-      'Nasir Fagella',
-      'Narbeth Chaehana',
-      'Vamir Petwynn',
-      'Rhalyf Faefir',
-      'Saevel Dordithas',
-      'Lura Gilhorn',
-      'Ellarian Valsandoral',
-      'Rania Virkas',
-      'Shalendra Miraxina',
-      'Elincia Petmys',
-      'Geminara Elamyar',
-      'Elmyra Vennala',
-      'Tanulia Morran',
-      'Artin Xyrxisys',
-      'Darunia Xilmys',
-      'Garynnon Faejeon',
-      'Aerendyl Gilqen',
-      'Ilphas Norvalur',
-      'Sylvar Jogolor',
-      'Evindal Orinan',
-      'Folmer Morsandoral',
-      'Darfin Dafiel',
-      'Sinaht Naevaris',
-      'Iyrandrar Ianfir',
-      'Ayluin Trisfir',
-      'Naevys Reyra',
       'Elidyr Genvaris',
       'Aymer Trissalor',
       'Goren Oloro',
@@ -149,6 +146,19 @@ const mocks = {
       'Jandar Xilzumin',
       'Inchel Olonan',
       'Nanthaliene Magzumin',
+    ];
+    
+    const femaleNames = [
+      'Taeral Xyrnan',
+      'Aien Caikrana',
+      'Jorildyn Adthana',
+      'Kymil Brylee',
+      'Nasir Fagella',
+      'Narbeth Chaehana',
+      'Vamir Petwynn',
+      'Rhalyf Faefir',
+      'Saevel Dordithas',
+      'Lura Gilhorn',
       'Ava Tramaer',
       'Yaereene Yeljor',
       'Aila Kellen',
@@ -159,6 +169,41 @@ const mocks = {
       'Arryn Balcaryn',
       'Tanulia Ianjyre',
     ];
+
+    const neutralNames = [
+      'Garynnon Faejeon',
+      'Aerendyl Gilqen',
+      'Ilphas Norvalur',
+      'Sylvar Jogolor',
+      'Evindal Orinan',
+      'Folmer Morsandoral',
+      'Darfin Dafiel',
+      'Sinaht Naevaris',
+      'Iyrandrar Ianfir',
+      'Ayluin Trisfir',
+      'Ellarian Valsandoral',
+      'Rania Virkas',
+      'Shalendra Miraxina',
+      'Elincia Petmys',
+      'Geminara Elamyar',
+      'Elmyra Vennala',
+      'Tanulia Morran',
+      'Artin Xyrxisys',
+      'Darunia Xilmys',
+      'Naevys Reyra',
+    ];
+
+    if(!gender) {
+      return shuffle(maleNames.concat(femaleNames).concat(neutralNames));
+    }
+
+    if(gender === 'male') {
+      return shuffle(maleNames);
+    } else if(gender === 'neutral') {
+      return shuffle(neutralNames);
+    } else {
+      return shuffle(femaleNames);
+    }
   }
 }
 

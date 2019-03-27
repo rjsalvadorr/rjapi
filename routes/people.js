@@ -8,17 +8,19 @@ const sample = require('lodash/sample');
 /* GET people listing. */
 router.get('/', function(req, res, next) {
   const baseUrl = req.protocol + '://' + req.get('host');
-
   const people = [];
-  const numPeople = 10;
+  const numPeople = 20;
   let newRace;
+  let newGender;
+
   for(let i = 0; i < numPeople; i++) {
     newRace = mocks.getRandomFantasyRace();
+    newGender = mocks.getRandomFantasyGender();
     people.push({
-      image: mocks.getRandomDisplayPicUrl(baseUrl),
-      name: mocks.getRaceAppropriateName(newRace),
+      name: mocks.getRaceAppropriateName(newRace, newGender),
       race: newRace,
-      gender: '???',
+      gender: newGender,
+      image: mocks.getRandomDisplayPicUrl(baseUrl),
     });
   }
   res.json(people);
