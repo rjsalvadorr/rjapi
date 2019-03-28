@@ -3,12 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var namesRouter = require('./routes/names');
 var charactersRouter = require('./routes/characters');
 
 var app = express();
+
+// enabling CORS requests
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
