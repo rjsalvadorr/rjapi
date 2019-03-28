@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
     newRace = mocks.getRandomFantasyRace();
     newGender = mocks.getRandomFantasyGender();
     characters.push({
+      id: 'character-' + i,
       name: mocks.getRaceAppropriateName(newRace, newGender),
       race: newRace,
       gender: newGender,
